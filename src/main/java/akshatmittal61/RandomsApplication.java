@@ -1,5 +1,6 @@
 package akshatmittal61;
 
+import akshatmittal61.routes.Routes;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -23,7 +24,7 @@ public class RandomsApplication extends Application<RandomsConfiguration> {
     @Override
     public void run(final RandomsConfiguration configuration,
                     final Environment environment) {
-        // TODO: implement application
+        environment.jersey().register(new Routes());
     }
 
 }
