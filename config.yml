@@ -1,0 +1,4 @@
+logging:
+  level: INFO
+  loggers:
+    akshatmittal61: DEBUG
