@@ -11,10 +11,11 @@ public class Autosuggest {
 
     static {
         contentTypes.add("autosuggest/recentSearches");
-        contentTypes.add("autosuggest/trendingSearches");
+        contentTypes.add("autosuggest/trendingToday");
         contentTypes.add("autosuggest/recommendedStores");
         contentTypes.add("autosuggest/topDealsStores");
         contentTypes.add("autosuggest/popularProducts");
+        contentTypes.add("autosuggest/productOffersView");
 
         configurableParameters.add(ConfigurableParameter.builder()
             .type("ENUMERATED")
