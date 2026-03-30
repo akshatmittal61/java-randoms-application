@@ -1,7 +1,8 @@
 package akshatmittal61.routes;
 
 import akshatmittal61.constants.Autosuggest;
-import akshatmittal61.models.ContentTypes;
+import akshatmittal61.models.ConfigurableParameter;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -27,7 +28,13 @@ public class Routes {
 
     @GET
     @Path("/sherlock/v1/autosuggest/management/getContentTypes")
-    public ContentTypes getContentTypes() {
-        return ContentTypes.builder().parameters(Autosuggest.contentTypes).build();
+    public List<String> getContentTypes() {
+        return Autosuggest.contentTypes;
+    }
+
+    @GET
+    @Path("/sherlock/v1/autosuggest/management/getConfigurableParameters")
+    public List<ConfigurableParameter> getConfigurableParameters() {
+        return Autosuggest.configurableParameters;
     }
 }
