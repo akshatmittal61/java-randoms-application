@@ -20,6 +20,12 @@ public class Routes {
     }
 
     @GET
+    @Path("/elb-healthcheck")
+    public String elbHealthCheck() {
+        return "OK";
+    }
+
+    @GET
     @Path("/sherlock/v1/autosuggest/management/getContentTypes")
     public ContentTypes getContentTypes() {
         return ContentTypes.builder().parameters(Autosuggest.contentTypes).build();
