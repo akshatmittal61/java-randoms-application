@@ -1,5 +1,6 @@
 MOTIVE=""
 PORT=8000
+CURR_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 # If no motive is provided, default to start
 if [ -z "$1" ]; then
@@ -8,8 +9,10 @@ else
     MOTIVE="$1"
 fi
 
-if [ ! -d "logs" ]; then
-    mkdir logs
+echo "Current: $CURR_DIR"
+
+if [ ! -d "$CURR_DIR/logs" ]; then
+    mkdir $CURR_DIR/logs
 fi
 
 function monitor_process {
@@ -41,8 +44,13 @@ function stop {
 }
 
 function start {
-    mvn clean install -DskipTests > logs/mvn.log 2>&1
-    java -jar target/randoms-1.0-SNAPSHOT.jar server config.yml > logs/app.log 2>&1 &
+    PID=$(lsof -i :$PORT -sTCP:LISTEN -t)
+    if [ -n "$PID" ]; then
+        echo "Server already running on port $PORT"
+        return 1
+    fi
+    mvn clean install -DskipTests > $CURR_DIR/logs/mvn.log 2>&1
+    java -jar $CURR_DIR/target/randoms-1.0-SNAPSHOT.jar server $CURR_DIR/config.yml > $CURR_DIR/logs/app.log 2>&1 &
     STATUS=$!
     echo "Waiting for server to listen on port $PORT..."
     monitor_process $STATUS &
