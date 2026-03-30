@@ -50,6 +50,10 @@ function start {
         return 1
     fi
     mvn clean install -DskipTests > $CURR_DIR/logs/mvn.log 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Failed to build application"
+        return 1
+    fi
     java -jar $CURR_DIR/target/randoms-1.0-SNAPSHOT.jar server $CURR_DIR/config.yml > $CURR_DIR/logs/app.log 2>&1 &
     STATUS=$!
     echo "Waiting for server to listen on port $PORT..."
