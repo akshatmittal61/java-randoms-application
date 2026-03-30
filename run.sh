@@ -10,6 +10,7 @@ else
 fi
 
 echo "Current: $CURR_DIR"
+cd $CURR_DIR
 
 if [ ! -d "$CURR_DIR/logs" ]; then
     mkdir $CURR_DIR/logs
