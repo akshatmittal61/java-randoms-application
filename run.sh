@@ -1,6 +1,7 @@
 MOTIVE=""
 PORT=8000
 CURR_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+DO_REBUILD="true"
 
 # If no motive is provided, default to start
 if [ -z "$1" ]; then
@@ -8,6 +9,17 @@ if [ -z "$1" ]; then
 else
     MOTIVE="$1"
 fi
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --no-rebuild)
+      DO_REBUILD="false"
+      shift
+      ;;
+    *)      shift
+      ;;
+  esac
+done
 
 echo "Current: $CURR_DIR"
 cd $CURR_DIR
@@ -50,10 +62,12 @@ function start {
         echo "Server already running on port $PORT"
         return 1
     fi
-    mvn clean install -DskipTests > $CURR_DIR/logs/mvn.log 2>&1
-    if [ $? -ne 0 ]; then
-        echo "Failed to build application"
-        return 1
+    if [ $DO_REBUILD = "true" ]; then
+      mvn clean install -DskipTests > $CURR_DIR/logs/mvn.log 2>&1
+      if [ $? -ne 0 ]; then
+          echo "Failed to build application"
+          return 1
+      fi
     fi
     java -jar $CURR_DIR/target/randoms-1.0-SNAPSHOT.jar server $CURR_DIR/config.yml > $CURR_DIR/logs/app.log 2>&1 &
     STATUS=$!
