@@ -2,6 +2,7 @@ package akshatmittal61.routes;
 
 import akshatmittal61.constants.Autosuggest;
 import akshatmittal61.models.ConfigurableParameter;
+import akshatmittal61.models.ConfigurableParameters;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -34,7 +35,8 @@ public class Routes {
 
     @GET
     @Path("/sherlock/v1/autosuggest/management/getConfigurableParameters")
-    public List<ConfigurableParameter> getConfigurableParameters() {
-        return Autosuggest.configurableParameters;
+    public ConfigurableParameters getConfigurableParameters() {
+        return ConfigurableParameters.builder().parameters(Autosuggest.configurableParameters)
+            .build();
     }
 }
